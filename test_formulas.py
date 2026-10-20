@@ -2,8 +2,14 @@
 Usage: python3 build.py && python3 test_formulas.py"""
 import json,math,re,subprocess,sys
 C=lambda x:math.ceil(round(x,6))
+import os,urllib.request
+BASE=os.environ.get("BASE")
+_cache={}
+def page(slug):
+    if slug not in _cache:_cache[slug]=urllib.request.urlopen(f"{BASE}/{slug}/").read().decode() if BASE else open(f"dist/{slug}/index.html").read()
+    return _cache[slug]
 def run(slug,inp):
-    js=re.search(r"<script>(function U.*?)</script>",open(f"dist/{slug}/index.html").read(),re.S).group(1)
+    js=re.search(r"<script>(function U.*?)</script>",page(slug),re.S).group(1)
     js=js.split("function run()")[0]
     stub="var V=%s;var document={getElementById:function(i){return {value:V[i]}}};"%json.dumps({k:str(v) for k,v in inp.items()})
     out=subprocess.run(["node","-e",stub+js+";console.log(JSON.stringify(c()))"],capture_output=True,text=True,check=True).stdout
@@ -42,7 +48,7 @@ for slug in sorted(os.listdir("dist")):
         f=[t for t in T if t[0]==slug]
         if not f: print("NO TEST",slug);fail+=1
         # edge cases on defaults: zeros, negative, huge
-        js_inputs=re.findall(r"<input id='(\w+)'[^>]*value='([^']*)'",open(f"dist/{slug}/index.html").read())
+        js_inputs=re.findall(r"<input id='(\w+)'[^>]*value='([^']*)'",page(slug))
         z=run(slug,{k:0 for k,_ in js_inputs});neg=run(slug,{**{k:v for k,v in js_inputs},js_inputs[0][0]:-5});big=run(slug,{k:1e9 for k,_ in js_inputs});blank=run(slug,{**{k:v for k,v in js_inputs},js_inputs[0][0]:""})
         for nm,r in [("zero",z),("neg",neg),("huge",big),("blank",blank)]:
             if any(re.search("NaN|Infinity|undefined",str(v)) for v in r.values()):print("EDGE FAIL",slug,nm,r);fail+=1

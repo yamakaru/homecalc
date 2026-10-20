@@ -1,5 +1,7 @@
 import os,json
-SITE="https://homecalc-7kw.pages.dev"
+import os
+exec(open("config.py").read())
+SITE=os.environ.get("BASE_URL",BASE_URL).rstrip("/")
 tools={
 "concrete-calculator":dict(t="Concrete Calculator – Cubic Yards & Bags for Slabs",d="Free concrete calculator: enter slab length, width and thickness to get cubic yards, cubic feet and the number of 40, 60 or 80 lb bags needed.",h="Concrete Slab Calculator",
 f=[("L","Length (ft)",10),("W","Width (ft)",10),("T","Thickness (in)",4),("X","Waste allowance (%)",10)],
