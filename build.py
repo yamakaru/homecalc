@@ -41,3 +41,5 @@ for k,v in tools.items():
 page("","HomeCalc – Free Home Improvement Calculators","Free calculators for concrete, paint, mulch, gravel and tile. Fast, mobile-friendly, with how-to guides.","<h1 id='all'>Free Home Improvement Calculators</h1><p>Fast, free estimates for materials—with the formulas shown so you can check the math.</p>"+"".join(f"<h2>{c}</h2><ul>"+"".join(f"<li><a href='/{k}/'>{tools[k]['h']}</a> – {tools[k]['d']}</li>" for k in ks)+"</ul>" for c,ks in CATS.items()),{"@context":"https://schema.org","@type":"WebSite","name":"HomeCalc","url":SITE+"/"})
 open("dist/robots.txt","w").write(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
 open("dist/sitemap.xml","w").write('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+"".join(f"<url><loc>{SITE}/{p}</loc></url>" for p in [""]+[k+"/" for k in tools])+"</urlset>")
+INDEXNOW_KEY="8ec75cf5be6140d1a2450286c210fb1c"
+open(f"dist/{INDEXNOW_KEY}.txt","w").write(INDEXNOW_KEY)
