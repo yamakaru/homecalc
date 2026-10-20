@@ -23,23 +23,4 @@ js="""var area=L*W,ta=A*B/144,n=Math.ceil(area/ta*(1+X/100));return [['Area (sq 
 g="""<h2>Tile formula</h2><p>Tiles = floor area ÷ area of one tile, plus waste. Tile area in sq ft = tile length (in) × width (in) ÷ 144. A 12 × 12 in tile is exactly 1 sq ft.</p><h2>How much waste to add</h2><ul><li>Straight lay, simple room: 10%</li><li>Diagonal or herringbone: 15–20%</li><li>Large-format tiles or many obstacles: 15%+</li></ul><p>Keep a few spare tiles from the same dye lot for future repairs—later batches often differ slightly in shade.</p><h2>Grout joints</h2><p>This estimate ignores grout width, which slightly reduces the tile count—another reason the waste allowance is conservative.</p>"""),
 }
 exec(open("tools2.py").read());tools.update(T2)
-css="body{font-family:system-ui,sans-serif;max-width:760px;margin:auto;padding:16px;line-height:1.6;color:#222}label{display:block;margin-top:10px;font-weight:600}input{width:100%;padding:10px;font-size:16px;box-sizing:border-box}button{margin-top:14px;padding:12px 20px;font-size:16px;background:#0a66c2;color:#fff;border:0;border-radius:6px}table{width:100%;border-collapse:collapse;margin-top:14px}td{border-bottom:1px solid #ddd;padding:8px}.aff{border:1px dashed #aaa;padding:12px;margin:20px 0;color:#666}nav a{margin-right:12px}"
-nav="<nav><a href='/'>HomeCalc</a><a href='/#all'>All calculators</a></nav>"
-def rel(k):
-    for c,ks in CATS.items():
-        if k in ks: return "<h2>Related calculators</h2><ul>"+"".join(f"<li><a href='/{x}/'>{tools[x]['h']}</a></li>" for x in ks if x!=k)+"</ul>"
-    return ""
-def page(path,title,desc,body,schema):
-    os.makedirs("dist/"+path,exist_ok=True)
-    open(f"dist/{path}/index.html".replace("//","/"),"w").write(f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="google-site-verification" content="tUSgNieMfnEGtYO6ftaOrCspkGS1s--0r4vVz2ilGL8" /><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title}</title><meta name="description" content="{desc}"><link rel="canonical" href="{SITE}/{path}{'/' if path else ''}"><style>{css}</style><script type="application/ld+json">{json.dumps(schema)}</script></head><body>{nav}{body}<footer><p><small>Estimates only; confirm quantities with your supplier. © 2026 HomeCalc</small></p></footer></body></html>""")
-for k,v in tools.items():
-    inputs="".join(f"<label for='{i}'>{l}</label><input id='{i}' type='number' step='any' value='{d}'>" for i,l,d in v['f'])
-    ids=",".join(i for i,_,_ in v['f'])
-    js=f"function c(){{var "+",".join(f"{i}=+document.getElementById('{i}').value" for i,_,_ in v['f'])+f";return (function(){{{v['js']}}})()}}function run(){{document.getElementById('r').innerHTML=c().map(function(x){{return '<tr><td>'+x[0]+'</td><td><b>'+x[1]+'</b></td></tr>'}}).join('')}}run();"
-    body=f"<h1>{v['h']}</h1><p>{v['d']}</p>{inputs}<button onclick='run()'>Calculate</button><table id='r'></table><div class='aff'><!-- AFFILIATE_SLOT: recommended products (Amazon Associates) – add real links after approval --></div><div class='ad'><!-- AD_SLOT --></div>{v['g']}{rel(k)}<script>{js}</script>"
-    page(k,v['t'],v['d'],body,{"@context":"https://schema.org","@type":"WebApplication","name":v['h'],"url":f"{SITE}/{k}/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":v['d']})
-page("","HomeCalc – Free Home Improvement Calculators","Free calculators for concrete, paint, mulch, gravel and tile. Fast, mobile-friendly, with how-to guides.","<h1 id='all'>Free Home Improvement Calculators</h1><p>Fast, free estimates for materials—with the formulas shown so you can check the math.</p>"+"".join(f"<h2>{c}</h2><ul>"+"".join(f"<li><a href='/{k}/'>{tools[k]['h']}</a> – {tools[k]['d']}</li>" for k in ks)+"</ul>" for c,ks in CATS.items()),{"@context":"https://schema.org","@type":"WebSite","name":"HomeCalc","url":SITE+"/"})
-open("dist/robots.txt","w").write(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
-open("dist/sitemap.xml","w").write('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+"".join(f"<url><loc>{SITE}/{p}</loc></url>" for p in [""]+[k+"/" for k in tools])+"</urlset>")
-INDEXNOW_KEY="8ec75cf5be6140d1a2450286c210fb1c"
-open(f"dist/{INDEXNOW_KEY}.txt","w").write(INDEXNOW_KEY)
+exec(open("render.py").read())
