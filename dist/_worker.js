@@ -1,0 +1,1 @@
+export default{async fetch(req,env){const u=new URL(req.url),h=u.hostname,apex=new URL('https://porchmath.com').hostname;if(h!==apex&&h!=='localhost'&&(h.endsWith('.pages.dev')||h==='www.'+apex)){return Response.redirect('https://porchmath.com'+u.pathname+u.search,301)}return env.ASSETS.fetch(req)}};

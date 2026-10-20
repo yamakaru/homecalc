@@ -1,3 +1,3 @@
 # Single place to change the public site URL (e.g. https://porchmath.com once a domain is bought).
-BASE_URL = "https://porchmath.pages.dev"
+BASE_URL = "https://porchmath.com"
 SITE_NAME = "PorchMath"
