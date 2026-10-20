@@ -6,7 +6,7 @@ import os,urllib.request
 BASE=os.environ.get("BASE")
 _cache={}
 def page(slug):
-    if slug not in _cache:_cache[slug]=urllib.request.urlopen(f"{BASE}/{slug}/").read().decode() if BASE else open(f"dist/{slug}/index.html").read()
+    if slug not in _cache:_cache[slug]=urllib.request.urlopen(urllib.request.Request(f"{BASE}/{slug}/",headers={"User-Agent":"Mozilla/5.0 PorchMath-tests"})).read().decode() if BASE else open(f"dist/{slug}/index.html").read()
     return _cache[slug]
 def run(slug,inp):
     js=re.search(r"<script>(function U.*?)</script>",page(slug),re.S).group(1)
