@@ -19,7 +19,7 @@ NOTES={
 "sod-grass-seed-calculator":("sod-seed","Based on 2×5 ft sod pieces and ~450 sq ft pallets. Pallet size and seed rate vary — check with your supplier and the seed bag."),
 }
 import os,json,html
-GSC='<meta name="google-site-verification" content="tUSgNieMfnEGtYO6ftaOrCspkGS1s--0r4vVz2ilGL8" />'
+GSC='<meta name="google-site-verification" content="tUSgNieMfnEGtYO6ftaOrCspkGS1s--0r4vVz2ilGL8" /><meta name="google-site-verification" content="doQNKQ0GzOOrZPbvlmvywtIc4CJyNgohgk_whM_nl4k" />'
 INDEXNOW_KEY="8ec75cf5be6140d1a2450286c210fb1c"
 CATC={"Concrete & masonry":("#b45309","#fef3c7"),"Interior":("#1d4ed8","#dbeafe"),"Outdoor & yard":("#15803d","#dcfce7")}
 ICON={"Concrete & masonry":'<path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/>',
