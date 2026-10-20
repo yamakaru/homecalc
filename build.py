@@ -31,7 +31,7 @@ def rel(k):
     return ""
 def page(path,title,desc,body,schema):
     os.makedirs("dist/"+path,exist_ok=True)
-    open(f"dist/{path}/index.html".replace("//","/"),"w").write(f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title}</title><meta name="description" content="{desc}"><link rel="canonical" href="{SITE}/{path}{'/' if path else ''}"><style>{css}</style><script type="application/ld+json">{json.dumps(schema)}</script></head><body>{nav}{body}<footer><p><small>Estimates only; confirm quantities with your supplier. © 2026 HomeCalc</small></p></footer></body></html>""")
+    open(f"dist/{path}/index.html".replace("//","/"),"w").write(f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="google-site-verification" content="tUSgNieMfnEGtYO6ftaOrCspkGS1s--0r4vVz2ilGL8" /><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title}</title><meta name="description" content="{desc}"><link rel="canonical" href="{SITE}/{path}{'/' if path else ''}"><style>{css}</style><script type="application/ld+json">{json.dumps(schema)}</script></head><body>{nav}{body}<footer><p><small>Estimates only; confirm quantities with your supplier. © 2026 HomeCalc</small></p></footer></body></html>""")
 for k,v in tools.items():
     inputs="".join(f"<label for='{i}'>{l}</label><input id='{i}' type='number' step='any' value='{d}'>" for i,l,d in v['f'])
     ids=",".join(i for i,_,_ in v['f'])
